@@ -1,7 +1,7 @@
-#include <fcntl.h>    // for open()
-#include <stdio.h>    // for printf()
-#include <stdlib.h>   // for free()
-#include "get_next_line.h"  // your header file
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "get_next_line.h"
 
 int main(void)
 {
