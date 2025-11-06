@@ -1,23 +1,21 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: azirari <azirari@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 18:29:33 by azirari           #+#    #+#             */
-/*   Updated: 2025/11/05 19:22:51 by azirari          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <fcntl.h>    // for open()
+#include <stdio.h>    // for printf()
+#include <stdlib.h>   // for free()
+#include "get_next_line.h"  // your header file
 
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-int main()
-{   char buffer[5];
+int main(void)
+{
+    int fd;
+    char *line;
+    int i = 0;
+
+    fd = open("test.txt", O_RDONLY);
+    if (fd < 0)
+        return -1;
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("Line%d : %s\n", i, line);
+        i++;
+    }
     
-    int fd = open("test.txt", O_RDONLY);
-    ssize_t test = read(fd, buffer, sizeof(buffer));
-    printf("%ld", test);
-    printf("\n%s\n", buffer);
 }
