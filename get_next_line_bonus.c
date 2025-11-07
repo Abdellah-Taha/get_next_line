@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azirari <azirari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 11:50:32 by azirari           #+#    #+#             */
-/*   Updated: 2025/11/07 14:01:30 by azirari          ###   ########.fr       */
+/*   Created: 2025/11/07 14:07:28 by azirari           #+#    #+#             */
+/*   Updated: 2025/11/07 14:12:18 by azirari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*read_fd(int fd, char *str)
 {
@@ -59,29 +59,29 @@ char	*clean_up(char *str)
 char	*get_next_line(int fd)
 {
 	char		*to_ret;
-	static char	*str;
+	static char	*str[1024];
 	int			i;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	str = read_fd(fd, str);
-	if (!str || !*str)
+	str[fd] = read_fd(fd, str[fd]);
+	if (!str[fd] || !*str[fd])
 		return (NULL);
 	i = 0;
-	while (str[i] && str[i] != '\n')
+	while (str[fd][i] && str[fd][i] != '\n')
 		i++;
 	to_ret = malloc(i + 2);
 	if (!to_ret)
 		return (NULL);
 	i = 0;
-	while (str[i] && str[i] != '\n')
+	while (str[fd][i] && str[fd][i] != '\n')
 	{
-		to_ret[i] = str[i];
+		to_ret[i] = str[fd][i];
 		i++;
 	}
-	if (str[i] == '\n')
+	if (str[fd][i] == '\n')
 		to_ret[i++] = '\n';
 	to_ret[i] = '\0';
-	str = clean_up(str);
+	str[fd] = clean_up(str[fd]);
 	return (to_ret);
 }
