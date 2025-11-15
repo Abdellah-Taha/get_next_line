@@ -6,7 +6,7 @@
 /*   By: azirari <azirari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:50:32 by azirari           #+#    #+#             */
-/*   Updated: 2025/11/07 14:01:30 by azirari          ###   ########.fr       */
+/*   Updated: 2025/11/15 20:39:00 by azirari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*read_fd(int fd, char *str)
 	found_newline = 0;
 	while (!found_newline)
 	{
-		buff = malloc(BUFFER_SIZE + 1);
+		buff = malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 		if (!buff)
 			return (NULL);
 		bytes_r = read(fd, buff, BUFFER_SIZE);
@@ -30,7 +30,7 @@ char	*read_fd(int fd, char *str)
 			return (free(buff), str);
 		buff[bytes_r] = '\0';
 		i = ft_strchr(buff, '\n');
-		if (i >= 0 && buff[i] == '\n')
+		if (i > -1)
 			found_newline = 1;
 		if (!str)
 			str = ft_strdup(buff);
@@ -62,7 +62,7 @@ char	*get_next_line(int fd)
 	static char	*str;
 	int			i;
 
-	if (BUFFER_SIZE <= 0 || fd < 0)
+	if (fd < 0)
 		return (NULL);
 	str = read_fd(fd, str);
 	if (!str || !*str)
@@ -73,12 +73,9 @@ char	*get_next_line(int fd)
 	to_ret = malloc(i + 2);
 	if (!to_ret)
 		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '\n')
-	{
+	i = -1;
+	while (str[++i] && str[i] != '\n')
 		to_ret[i] = str[i];
-		i++;
-	}
 	if (str[i] == '\n')
 		to_ret[i++] = '\n';
 	to_ret[i] = '\0';

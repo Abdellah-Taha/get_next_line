@@ -6,7 +6,7 @@
 /*   By: azirari <azirari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 14:07:28 by azirari           #+#    #+#             */
-/*   Updated: 2025/11/07 14:12:18 by azirari          ###   ########.fr       */
+/*   Updated: 2025/11/07 20:53:32 by azirari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,9 @@ char	*get_next_line(int fd)
 	to_ret = malloc(i + 2);
 	if (!to_ret)
 		return (NULL);
-	i = 0;
-	while (str[fd][i] && str[fd][i] != '\n')
-	{
+	i = -1;
+	while (str[fd][++i] && str[fd][i] != '\n')
 		to_ret[i] = str[fd][i];
-		i++;
-	}
 	if (str[fd][i] == '\n')
 		to_ret[i++] = '\n';
 	to_ret[i] = '\0';
